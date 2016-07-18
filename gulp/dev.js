@@ -7,6 +7,7 @@ const path = require('path'),
       plugins = require('gulp-load-plugins')(),
       runSequence = require('run-sequence'),
       bowerFiles = require('main-bower-files'),
+      through = require('through2'),
       del = require('del'),
 
       config = require('./config'),
@@ -21,16 +22,26 @@ gulp.task('clean', function(done) {
 })
 
 gulp.task('index.html', function() {
-  gulp.src(path.join(config.app.folder, config.app.index))
-    .pipe(plugins.watch(path.join(config.app.folder, config.app.index), ['index.html']))
+  let src = path.join(config.app.folder, config.app.index);
+  let app = gulp.src(path.resolve(path.join(config.dest.folder, config.app.js.dest)), { read: false });
+  gulp.src(src)
+    .pipe(plugins.watch(src))
     .pipe(plugins.inject(gulp.src(bowerFiles(), {read: false}), {name: 'bower'}))
+    .pipe(plugins.inject(app, {
+        transform: (path, file, i, length) => {
+          let newPath = path.replace(config.dest.folder.replace(/\./, ''), '');
+          return `<script src="${newPath}"></script>`;
+        },
+        name: 'app',
+      }))
     .pipe(gulp.dest(config.dest.folder))
     ;
 })
 
 gulp.task('scss', function() {
-  gulp.src(path.join(config.app.folder, config.app.scss.src))
-    .pipe(plugins.watch(path.join(config.app.folder, config.app.scss.src), ['scss']))
+  let src = path.join(config.app.folder, config.app.scss.src);
+  gulp.src(src)
+    .pipe(plugins.watch(src))
     .pipe(plugins.sass().on('error', plugins.sass.logError))
     .pipe(plugins.autoprefixer({
       browsers: ['last 2 versions'],
@@ -40,10 +51,24 @@ gulp.task('scss', function() {
     ;
 })
 
+gulp.task('javascript', function(done) {
+  let src = path.join(config.app.folder, config.app.js.src);
+  gulp.src(src)
+    .pipe(plugins.watch(src))
+    .pipe(plugins.continuousConcat(config.app.js.dest))
+    .pipe(gulp.dest(config.dest.folder))
+    .pipe(through.obj((file, enc, next) => {
+      next();
+      done();
+    }))
+    ;
+})
+
 gulp.task('prepare', function(done) {
   runSequence(
-    'index.html',
+    'javascript',
     'scss',
+    'index.html',
     done
   );
 })
@@ -76,7 +101,7 @@ gulp.task('bower_components', function() {
 
 gulp.task('default', function(done) {
   runSequence(
-    'clean',
+//    'clean',
     'prepare',
     'webserver',
     done);

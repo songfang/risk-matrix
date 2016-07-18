@@ -8,6 +8,10 @@ module.exports = {
       src: '**/*.scss',
       dest: 'app.css',
     },
+    js: {
+      src: '**/*.js',
+      dest: 'app.js',
+    },
   },
 
   dest: {

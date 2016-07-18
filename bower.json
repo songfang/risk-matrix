@@ -13,8 +13,8 @@
   ],
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "xlsx": "*",
-    "dropzone": "^4.3.0"
+    "dropzone": "^4.3.0",
+    "fastclick": "^1.0.6"
   },
   "overrides": {
     "bootstrap": {
