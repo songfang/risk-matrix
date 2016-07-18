@@ -2,7 +2,10 @@
 'use strict';
 
 const _ = require('lodash'),
-      xlsx = require('xlsx')
+      xlsx = require('xlsx'),
+      path = require('path'),
+      fs = require('fs'),
+      mkdirp = require('mkdirp')
       ;
 
 let workbook = null;
@@ -27,7 +30,7 @@ function parse(path) {
 function settings(settings) {
   return new Promise((resolve, reject) => {
     cookieCutter = settings;
-    console.log(cookieCutter);
+    saveSettings(cookieCutter);
     calculateData()
       .then((result) => {
         resolve(result);
@@ -38,6 +41,45 @@ function settings(settings) {
       ;
   });
   
+}
+
+function saveSettings(settings) {
+  mkdirp(path.join(process.cwd(), 'data'), function(err) {
+    if (err) {
+      throw err;
+    }
+
+    fs.writeFile(path.join(process.cwd(), 'data', 'settings.json'), 
+                  JSON.stringify(settings), 
+                  function(err) {
+      if (err) {
+        throw err;
+      }
+    });
+
+  });
+}
+
+function loadSettings(settings) {
+  return new Promise((resolve, reject) => {
+    let settingsFile = path.join(process.cwd(), 'data', 'settings.json');
+      fs.exists(settingsFile, function(result) {
+        if (!result) {
+          reject('saved settings doesn\'t exist');
+        }
+
+        fs.readFile(settingsFile, function(err, data) {
+          if (err) {
+            reject(err);
+          }
+
+          cookieCutter = JSON.parse(data);
+
+          resolve(cookieCutter);
+
+        });
+    });
+  });
 }
 
 function calculateData() {
@@ -86,4 +128,5 @@ function calculateData() {
 module.exports = {
   parse,
   settings,
+  loadSettings,
 }

@@ -6,7 +6,7 @@ $(function() {
     url: '/api/upload',
     paramName: 'xlsx',
     success: function(file, response) {
-      console.log(response);
+      calculateDiagram(response);
     },
     complete: function(file) {
       this.removeFile(file);

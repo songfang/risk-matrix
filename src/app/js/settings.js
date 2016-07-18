@@ -19,14 +19,21 @@ $(function() {
 
   var $inputSettings = $('input.settings');
 
-  $inputSettings.each(function() {
-    $field = $(this);
-    $field.val(settings[$field.attr('id')]);
-  })
+  function setDefaults(load) {
+    $inputSettings.each(function() {
+      $field = $(this);
+      $field.val(settings[$field.attr('id')]);
+      if (!!load) {
+        delay(function() {
+          loadSettings();  
+        }, 500);
+      }
+    });
+  }
+  setDefaults(true);
 
   $inputSettings.keyup(function(e) {
     var $el = $(e.target);
-    console.log($el.val(), $el.attr('id'));
     settings[$el.attr('id')] = $el.val();
     delay(function() {
       sendSettings(settings);
@@ -42,8 +49,21 @@ $(function() {
       type: 'POST'
     });
     promise.then(function(data) {
-      console.log(data);
+      calculateDiagram(data);
     })
   }
 
+  function loadSettings() {
+    var promise = $.ajax('/api/settings', {
+      contentType: 'application/json; charset=utf-8',
+      sync: false,
+      processData: false,
+      type: 'GET'
+    });
+    promise.then(function(data) {
+      settings = data;
+      setDefaults();
+      sendSettings(settings);
+    });
+  }
 });
