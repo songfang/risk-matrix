@@ -51,6 +51,7 @@ gulp.task('scss', function() {
     ;
 })
 
+let once = true;
 gulp.task('javascript', function(done) {
   let src = path.join(config.app.folder, config.app.js.src);
   gulp.src(src)
@@ -59,7 +60,10 @@ gulp.task('javascript', function(done) {
     .pipe(gulp.dest(config.dest.folder))
     .pipe(through.obj((file, enc, next) => {
       next();
-      done();
+      if (once) {
+        once = false;
+        done();
+      }
     }))
     ;
 })
@@ -73,7 +77,7 @@ gulp.task('prepare', function(done) {
   );
 })
 
-gulp.task('webserver', ['bower_components'], function() {
+gulp.task('webserver', ['api', 'bower_components'], function() {
   setTimeout(() => {
     gulp.src(config.dest.folder)
       .pipe(plugins.webserver({
@@ -84,10 +88,24 @@ gulp.task('webserver', ['bower_components'], function() {
         proxies: [{
           source: '/bower_components',
           target: 'http://localhost:' + (PORT + 1),
+        },{
+          source: '/api',
+          target: 'http://localhost:' + (PORT + 2),
         }],
       }))
       ;
   }, 1000);
+})
+
+gulp.task('api', function() {
+  plugins.nodemon({
+    script: path.join(config.app.api, 'app.js'),
+    ext: 'js',
+    watch: [path.join(config.app.api, '**/*.js')],
+    env: {
+      PORT: PORT + 2,
+    }
+  })
 })
 
 gulp.task('bower_components', function() {

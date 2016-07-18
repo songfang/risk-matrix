@@ -12,6 +12,7 @@ module.exports = {
       src: '**/*.js',
       dest: 'app.js',
     },
+    api: './src/api',
   },
 
   dest: {
