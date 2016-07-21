@@ -1,8 +1,17 @@
 
-#risk-matrix {
+$width: 600px;
+$height: 400px;
+
+
+#matrix {
   margin: 0 auto;
-  width: 600px;
-  height: 400px;
+  width: $width;
+  height: $height;
+}
+
+#risk-matrix {
+  width: $width;
+  height: $height;
 
   border: 1px solid #ddd;
 }

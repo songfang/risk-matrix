@@ -1,24 +1,29 @@
 
 var drawChart = (function(d3) {
 
-  var chart = d3.select('#risk-matrix'),
-      diagramWidth = +(chart.style('width').replace('px', '')),
-      diagramHeight = +(chart.style('height').replace('px', ''))
+  var canvas = d3.select('#risk-matrix'),
+      diagramWidth = +(canvas.style('width').replace('px', '')),
+      diagramHeight = +(canvas.style('height').replace('px', ''))
       y = d3.scaleLinear()
             .domain([0, 1])
             .range([0, diagramHeight]),
-      axisLeft = d3.axisLeft(y)
+      axisLeft = d3.axisLeft(y),
+      chart = canvas.append('g')
+                .attr('transform', 'translate(50, 40),scale(.8)')
       ;
 
+  chart.call(axisLeft);
 
   function generateChart(data) {
 
-    var x = d3.scaleLinear()
-            .domain([0, d3.max(data, function(d) { return d.costs; }) * 1,1])
+    var max = d3.max(data, function(d) { return d.costs; }) * 1.1,
+        x = d3.scaleLinear()
+            .domain([0, max])
             .range([0, diagramWidth]),
-        axisBottom = d3.axisBottom(x)
+        axisBottom = d3.axisBottom(x).tickValues(d3.range(0, Math.ceil(max)))
         ;
 
+    chart.append('g').attr('transform', 'translate(0,' + diagramHeight + ')').call(axisBottom);
 
     chart.selectAll('circle')
         .data(data)
