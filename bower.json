@@ -14,7 +14,8 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "dropzone": "^4.3.0",
-    "fastclick": "^1.0.6"
+    "fastclick": "^1.0.6",
+    "d3": "^4.1.1"
   },
   "overrides": {
     "bootstrap": {
