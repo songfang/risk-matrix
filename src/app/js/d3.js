@@ -6,7 +6,7 @@ var drawChart = (function(d3) {
       diagramHeight = +(canvas.style('height').replace('px', ''))
       y = d3.scaleLinear()
             .domain([0, 1])
-            .range([0, diagramHeight]),
+            .range([diagramHeight, 0]),
       axisLeft = d3.axisLeft(y),
       chart = canvas.append('g')
                 .attr('transform', 'translate(50, 40),scale(.8)')
