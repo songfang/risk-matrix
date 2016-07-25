@@ -37,12 +37,18 @@ dispatch.on('load', function(data) {
 
   dots.append('g').attr('transform', 'translate(0,' + diagramHeight + ')').call(axisBottom);
 
-  dots.selectAll('circle')
+  var dot = dots.selectAll('g.circle')
       .data(data)
-    .enter().append('circle')
+    .enter().append('g')
       .classed('circle', true)
-      .attr('cx', function(d) { return x(d.costs); })
-      .attr('cy', function(d) { return y(d.propability); })
+      .attr('transform', function(d) { return 'translate('+x(d.costs)+','+y(d.propability)+')'})
+    ;
+  dot.append('circle')
+          .classed('circle', true)
+
+  dot.append('text')
+          .attr('dx', -7)
+          .text(function(d) { return d.position; })
   ;
 
 });
