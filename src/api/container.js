@@ -89,17 +89,17 @@ function calculateData() {
       reject('input parameter null');
     }
 
-    let worksheet = workbook.Sheets[cookieCutter.sheet];
+    let worksheet = workbook.Sheets[cookieCutter.matrix.sheet];
 
     if (!_.isObject(worksheet)) {
       reject('worksheet not available by name');
     }
 
     let result = [];
-    let counter = cookieCutter.row;
+    let counter = cookieCutter.matrix.row;
 
     while (true) {
-      let cells = [`${cookieCutter.position}${counter}`, `${cookieCutter.costs}${counter}`, `${cookieCutter.propability}${counter}`];
+      let cells = [`${cookieCutter.matrix.position}${counter}`, `${cookieCutter.matrix.costs}${counter}`, `${cookieCutter.matrix.propability}${counter}`];
       cells = _.map(cells, (cell) => {
         return worksheet[cell] ? worksheet[cell].v : undefined;
       });

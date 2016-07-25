@@ -1,5 +1,4 @@
 
 function calculateDiagram(data) {
-  console.log(data);
-  drawChart(data);
+  dispatch.call('load', null, data)
 }
