@@ -2,11 +2,33 @@
 $width: 600px;
 $height: 400px;
 
+body {
+  background: #5f62a6;
+  color: white;
+}
+body * {
+  position: relative;
+}
+
+.dropzone {
+  background-color: #adb7ff;
+  color: #333;
+  border-style: dotted;
+  border-width: 5px;
+  border-color: white;
+  border-radius: 15px;
+  margin-bottom: 3em;
+}
+
+h1 {
+  text-align: center;
+}
 
 #matrix {
   margin: 0 auto;
   width: $width;
   height: $height;
+  background: white;
 }
 
 #risk-matrix {
@@ -16,11 +38,63 @@ $height: 400px;
   border: 1px solid #ddd;
 }
 
+#toggle {
+  margin-top: 2em;
+  text-align: right;
+  span {
+    background: white;
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    border-radius: 3px;
+    padding: 7px;
+  }
+}
+
 .circle {
   r: 4;
   stroke: black;
   stroke-width: 1;
-  fill: red;
+  fill: blue;
 }
 
+input {
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+}
 
+label { 
+  width: 100%;
+}
+
+.glyphicon {
+  top: 0px;
+  cursor: pointer;
+
+  &.add {
+    border-radius: 3px;
+    margin-bottom: 1em;
+  }
+}
+
+.glyphicon-remove {
+  color: darkred;
+  text-shadow: 0 0 2px #333; 
+  &:hover {
+    color: red;
+  }
+}
+
+.glyphicon-plus {
+  color: green;
+  text-shadow: 0 0 2px #333;
+  &:hover {
+    color: lightgreen;
+  }
+}
+
+button {
+  margin-top: 1em;
+  width: 100%;
+}

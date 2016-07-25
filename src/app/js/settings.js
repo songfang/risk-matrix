@@ -87,7 +87,7 @@ $(function() {
   function showAxisConfig(selector, array) {
 
     var $el = $(selector),
-        line = '<div><span class="add">+</span><input type="text"/>%<span class="remove">X</span></div>';
+        line = '<div class="form-group"><div class="input-group"><span class="glyphicon glyphicon-plus input-group-addon"></span><input class="form-control" type="text"/><span class="input-group-addon">%</span><span class="glyphicon glyphicon-remove input-group-addon"></span></div></div>';
     $el.children().remove();
 
     function onClick(el, value) {
@@ -100,10 +100,10 @@ $(function() {
       else {
         $row.insertBefore($(el));
       }
-      $row.find('.add').on('click', function() {
-        onClick(this);
+      $row.find('.glyphicon-plus').on('click', function() {
+        onClick($(this).parent());
       });
-      $row.find('.remove').on('click', function() {
+      $row.find('.glyphicon-remove').on('click', function() {
         $row.remove();
       });
     }
@@ -112,11 +112,11 @@ $(function() {
       onClick($el, value);
     });
 
-    var $nl = $('<div><span class="add">+</span></div>').on('click', function() {
+    var $nl = $('<div><span class="glyphicon glyphicon-plus input-group-addon add"></span></div>').on('click', function() {
       onClick(this);
     });
     $el.append($nl);
-    $('<button>Submit</button>').appendTo($el).on('click', function() {
+    $('<button class="btn btn-default">Submit</button>').appendTo($el).on('click', function() {
       var out = [];
       $(selector).find('input').each(function() {
         var value = parseInt($(this).val(), 10);
@@ -129,5 +129,10 @@ $(function() {
       sendSettings(settings);
     })
   }
+
+  $('#toggle .glyphicon').click(function() {
+    $('#toggle .glyphicon').toggleClass('hidden');
+    $('#configurator').toggleClass('hidden');
+  })
 
 });

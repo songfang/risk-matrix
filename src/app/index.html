@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="/app.css">
 </head>
 <body>
+<div class="container">
 	<h1>Risk-Matrix</h1>
 
   <div class="dropzone"
@@ -19,45 +20,57 @@
   </div>
 
 
-  <div id="configurator">
-    <h2>Grid X-Axis</h2>
+  <div id="toggle">
+    <span class="glyphicon glyphicon-plus"></span>
+    <span class="glyphicon glyphicon-remove hidden"></span>
+  </div>
+
+  <div class="row hidden" id="configurator">
+
+    <div class="col-xs-4">
+    <h4>Grid X-Axis</h4>
     <div id="xAxis">
     </div>
-
-    <h2>Grid Y-Axis</h2>
-    <div id="yAxis">
     </div>
 
-    <h2>Worksheet Config</h2>
-    <div>
+    <div class="col-xs-4">
+    <h4>Grid Y-Axis</h4>
+    <div id="yAxis">
+    </div>
+    </div>
+
+    <div class="col-xs-4">
+    <h4>Worksheet Config</h4>
+    <div class="form-group">
       <div id="worksheet">
         <label>Sheet
-        <input type="text" id="sheet" class="settings"/>
+        <input type="text" id="sheet" class="settings form-control"/>
         </label>
       </div>
       <div>
         <label>Position Column (letter)
-        <input type="text" id="position" class="settings"/>
+        <input type="text" id="position" class="settings form-control"/>
         </label>
       </div>
       <div>
         <label>Costs Column (letter)
-        <input type="text" id="costs" class="settings"/>
+        <input type="text" id="costs" class="settings form-control"/>
         </label>
       </div>
       <div>
         <label>Propability Column (letter)
-        <input type="text" id="propability" class="settings"/>
+        <input type="text" id="propability" class="settings form-control"/>
         </label>
       </div>
       <div>
         <label>Start by Row (integer)
-        <input type="text" id="row" class="settings"/>
+        <input type="text" id="row" class="settings form-control"/>
         </label>
       </div>
     </div>
+    </div>
   </div>
-
+</div>
   <!-- bower:js -->
   <!-- endinject -->
   <!-- app:js -->
